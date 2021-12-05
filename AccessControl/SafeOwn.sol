@@ -1,8 +1,17 @@
 // SPDX-License-Identifier: MIT
 // @author Razzor https://twitter.com/razzor_tweet
 pragma solidity ^0.8.0;
-
-contract SafeOwn{
+     /**
+     * @dev Contract defines a 2-step Access Control for the owner of the contract in order
+     * to avoid risks. Such as accidentally transferring control to an undesired address or renouncing ownership.
+     * The contracts mitigates these risks by using a 2-step process for ownership transfers and a time margin
+     * to renounce ownership. The owner can propose the ownership to the new owner, and the pending owner can accept
+     * the ownership in order to become the new owner. If an undesired address has been passed accidentally, Owner
+     * can propose the ownership again to the new desired address, thus mitigating the risk of losing control immediately.
+     * Also, an owner can choose to retain ownership if renounced accidentally prior to future renounce time.
+     * The Owner can choose not to have this feature of time margin while renouncing ownership, by initialising _renounceInterval as 0.
+     */
+abstract contract SafeOwn{
     bool private isRenounced;
     address private _Owner;
     address private _pendingOwner;
